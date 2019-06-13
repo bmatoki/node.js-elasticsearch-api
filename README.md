@@ -17,6 +17,7 @@ node app
 
 ```
 * Node
+* Docker
 * elasticsearch
 * log stash
 * kibana

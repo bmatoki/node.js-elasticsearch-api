@@ -1,0 +1,71 @@
+    
+version: '3'
+services:
+  elasticsearch:
+    build:
+      context: elk/elasticsearch/
+      args:
+        ELK_VERSION: $ELK_VERSION
+    volumes:
+      - ./elk/elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
+      - ./elk/elasticsearch/data:/usr/share/elasticsearch/data
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    environment:
+      ES_JAVA_OPTS: "-Xmx1g -Xms1g"
+    networks:
+      - elk
+
+  logstash:
+    build:
+      context: elk/logstash/
+      args:
+        ELK_VERSION: $ELK_VERSION
+    volumes:
+      - ./elk/logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml:ro
+      - ./elk/logstash/config/index_templates/:/usr/share/logstash/config/index_templates
+      - ./elk/logstash/pipeline:/usr/share/logstash/pipeline:ro
+      - ./elk/logstash/data:/usr/share/logstash/data
+    ports:
+      - "5566:5566"
+      - "5556:5556"
+      - "9600:9600"
+    environment:
+      LS_JAVA_OPTS: "-Xmx256m -Xms256m"
+    networks:
+      - elk
+    depends_on:
+      - elasticsearch
+
+  kibana:
+    build:
+      context: elk/kibana/
+      args:
+        ELK_VERSION: $ELK_VERSION
+    volumes:
+      - ./elk/kibana/config/:/usr/share/kibana/config:ro
+    ports:
+      - "5601:5601"
+    networks:
+      - elk
+    depends_on:
+      - elasticsearch
+
+  log-reader:
+    build: .
+    command: nodemon -L --inspect=0.0.0.0:5858
+    volumes:
+      - .:/usr/src/app
+    ports:
+      - '8080:8080'
+      - '5858:5858'
+    networks:
+      - elk
+    depends_on:
+      - logstash
+      
+networks:
+
+  elk:
+    driver: bridge

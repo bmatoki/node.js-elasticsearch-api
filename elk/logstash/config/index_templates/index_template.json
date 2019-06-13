@@ -1,0 +1,119 @@
+{
+  "template" : "logstash-*",
+  "version" : 60001,
+  "settings" : {
+    "index.refresh_interval" : "5s"
+  },
+  "mappings" : {
+    "_default_" : {
+      "dynamic_templates" : [ {
+        "message_field" : {
+          "path_match" : "message",
+          "match_mapping_type" : "string",
+          "mapping" : {
+            "type" : "text",
+            "norms" : false
+          }
+        }
+      }, {
+        "string_fields" : {
+          "match" : "*",
+          "match_mapping_type" : "string",
+          "mapping" : {
+        "chain_array": {
+          "type": "text"
+        },
+        "client_time": {
+          "type": "date"
+        },
+        "destination_ip": {
+          "type": "ip"
+        },
+        "destination_path": {
+          "type": "text"
+        },
+        "destination_port": {
+          "type": "integer"
+        },
+        "direction": {
+          "type": "keyword"
+        },
+        "full_server_time": {
+          "type": "date"
+        },
+        "reporting_computer": {
+          "type": "text"
+        },
+        "dll_name": {
+          "type": "text"
+        },
+        "dll_path": {
+          "type": "text"
+        },
+        "mog_counter": {
+          "type": "integer"
+        },
+        "os": {
+          "type": "keyword"
+        },
+        "process_id": {
+          "type": "integer"
+        },
+        "process_name": {
+          "type": "text"
+        },
+        "process_path": {
+          "type": "text"
+        },
+        "protocol": {
+          "type": "keyword"
+        },
+        "reason": {
+          "type": "keyword"
+        },
+        "sequance_number": {
+          "type": "integer"
+        },
+        "source_ip": {
+          "type": "ip"
+        },
+        "source_port": {
+          "type": "integer"
+        },
+        "scramble_state": {
+          "type": "keyword"
+        },
+        "status": {
+          "type": "keyword"
+        },
+        "sub_sequance_number": {
+          "type": "integer"
+        },
+        "user_name": {
+          "type": "text"
+        },
+        "cast_type": {
+          "type": "keyword"
+        },
+        "counter" : {
+          "type": "integer"
+        }
+          }
+        }
+      } ],
+      "properties" : {
+        "@timestamp": { "type": "date"},
+        "@version": { "type": "keyword"},
+        "geoip"  : {
+          "dynamic": true,
+          "properties" : {
+            "ip": { "type": "ip" },
+            "location" : { "type" : "geo_point" },
+            "latitude" : { "type" : "half_float" },
+            "longitude" : { "type" : "half_float" }
+          }
+        }
+      }
+    }
+  }
+}
