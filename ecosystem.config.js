@@ -1,7 +1,7 @@
 module.exports = {
   apps: [
     {
-      name: 'v5-log-insert',
+      name: 'elk-log-reader',
       script: 'app.js',
       env: {
         NODE_ENV: 'development',
