@@ -13,4 +13,4 @@ COPY . .
 EXPOSE 8080
 EXPOSE 5858
 # Start the app
-CMD ["pm2-runtime", "ecosystem.config.js"]
+CMD ["pm2-runtime","ecosystem.config.js"]

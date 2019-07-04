@@ -11,14 +11,11 @@
   "license": "ISC",
   "dependencies": {
     "bodybuilder": "^2.2.16",
-    "chai": "^4.2.0",
-    "chai-http": "^4.2.0",
     "cors": "^2.8.5",
     "cron": "^1.5.1",
     "crypto": "^1.0.1",
     "elasticsearch": "^15.2.0",
     "express": "^4.16.4",
-    "mocha": "^5.2.0",
     "moment": "^2.22.2",
     "morgan": "^1.9.1",
     "node-cache": "^4.2.0",
@@ -29,6 +26,9 @@
     "eslint": "^4.19.1",
     "eslint-config-airbnb-base": "^13.0.0",
     "eslint-plugin-import": "^2.13.0",
-    "eslint-config-airbnb": "^17.1.0"
+    "eslint-config-airbnb": "^17.1.0",
+    "chai": "^4.2.0",
+    "chai-http": "^4.2.0",
+    "mocha": "^5.2.0"
   }
 }
