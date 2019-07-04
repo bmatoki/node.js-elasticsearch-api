@@ -12,6 +12,13 @@ function createFiltersFromObject(filtersObj) {
     Object.keys(filtersObj).forEach((key) => {
       body.filter('term', key, filtersObj[key]);
     });
+    // in case you want to do range query add the following line:
+    // body.filter('range', '@timestamp', {
+    //   gte: indexRange.from,
+    //   lte: indexRange.to,
+    //   format: 'yyyy.MM.dd',
+    //   time_zone: '+03:00',
+    // });
     body.sort('@timestamp', 'desc');
     return body;
   } catch (error) {

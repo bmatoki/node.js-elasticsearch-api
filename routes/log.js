@@ -99,7 +99,40 @@ async function getLogsBySpecificFilters(req, res) {
   }
 }
 
+// return all  username.keyword for filter auto complete
+async function getAllTextPrediction(req, res) {
+  log.info('Log route: /log/filters/all getAllTextPrediction () Started');
+  try {
+    const queryUserName = await client.search({
+      body: {
+        aggs: {
+          user_name: {
+            terms: { field: 'user_name.keyword', size: 10000 },
+          },
+        },
+        size: 0,
+      },
+    });
+    return res.json({
+      success: true,
+      msg: {
+        queryUserName,
+      },
+    });
+  } catch (error) {
+    log.error(`Log route: /log/filters/all getAllTextPrediction() error: ${error}`);
+    cacheUtil.incrementErrorCount(error.message || error);
+    return res.json({
+      success: false,
+      msg: `Error : ${error}`,
+    });
+  } finally {
+    log.info('Log route: /log/filters/all getAllTextPrediction () Ended');
+  }
+}
+
 // /log/_ routes
+router.get('/log/filters/all', getAllTextPrediction);
 router.get('/all', getAllLogsFromToday);
 router.post('/text', freeQueryString);
 router.post('/filters', getLogsBySpecificFilters);
